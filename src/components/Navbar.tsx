@@ -5,7 +5,8 @@ function Navbar() {
   return (
     <div>
       <Link to="/">Home</Link>
-      <Link to="/checkout">Checkout</Link>
+      <Link to="/products">Products</Link>
+      <Link to="/cart">Cart</Link>
     </div>
   );
 }

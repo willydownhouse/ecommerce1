@@ -4,37 +4,47 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 import Checkout from "./Checkout";
 import Navbar from "./Navbar";
+import Products, { Product } from "./Products";
+import Cart from "./Cart";
 import Home from "./Home";
-import Cannabis, { useCannabis } from "./Cannabis";
 
-interface CannabisContextType {
-  cannabis: Cannabis[];
-  isLoading: boolean;
-  isError: boolean;
-  error: unknown;
+interface CartContextType {
+  cart: Product[];
+  setCart: (value: Product[]) => void;
 }
 
-export const CannabisContext = createContext<CannabisContextType>({
-  cannabis: [],
-  isLoading: false,
-  isError: false,
-  error: null,
+export const CartContext = createContext<CartContextType>({
+  cart: [],
+  setCart: () => "",
 });
 
 const App = () => {
-  const { cannabis, isLoading, isError, error } = useCannabis();
+  const [cart, setCart] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const thereIsShoppingCartInLocalStorage =
+      localStorage.getItem("shoppingCart");
+
+    if (thereIsShoppingCartInLocalStorage) {
+      const storage = JSON.parse(thereIsShoppingCartInLocalStorage);
+
+      setCart(storage);
+    }
+  }, []);
 
   return (
-    <BrowserRouter>
-      <Link to="/">Home</Link>
-      <Link to="/cannabis">Cannabis</Link>
-      <CannabisContext.Provider value={{ cannabis, isError, isLoading, error }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/cannabis" element={<Cannabis />} />
-        </Routes>
-      </CannabisContext.Provider>
-    </BrowserRouter>
+    <div className="container">
+      <BrowserRouter>
+        <Navbar />
+        <CartContext.Provider value={{ cart, setCart }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </CartContext.Provider>
+      </BrowserRouter>
+    </div>
   );
 };
 

@@ -1,16 +1,18 @@
-import React, { useContext } from "react";
-import { CannabisContext } from "./App";
+import React from "react";
 
 function Home() {
-  const can = useContext(CannabisContext);
-
-  const { cannabis, isLoading } = can;
-
-  console.log(can);
-
-  if (isLoading) return <div>Loading...</div>;
-
-  return <div>{`Now you have ${cannabis.length} amount of weed`}</div>;
+  return (
+    <div
+      style={{
+        minHeight: "90vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <h1 className="header">My Web Store</h1>
+    </div>
+  );
 }
 
 export default Home;
