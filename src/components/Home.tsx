@@ -1,16 +1,10 @@
 import React from "react";
 
 function Home() {
+  console.log("HOME RENDERS");
   return (
-    <div
-      style={{
-        minHeight: "90vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <h1 className="header">My Web Store</h1>
+    <div>
+      <h1 className="header">Home</h1>
     </div>
   );
 }

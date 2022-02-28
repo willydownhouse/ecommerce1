@@ -1,88 +1,75 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { CartContext } from "./App";
-import ProductItem from "./ProductItem";
+import React, { useContext, useEffect, useReducer, useRef } from "react";
+import useProducts from "../hooks/useProducts";
+import ErrorNotif from "./Notification";
+import Spinner from "./Spinner";
+import Item from "./Item";
+import { initialState, StateContext } from "./App";
+import { reducer } from "../reducer";
+import Home from "./Home";
+
 export interface Product {
-  id: string;
-  manufacturer: string;
-  model: string;
+  id: number;
+  category: string;
+  description: string;
+  image: string;
+  price: number;
+  title: string;
 }
 
 const Products = () => {
-  const { cart, setCart } = useContext(CartContext);
-  const { products, isLoading, isError, error } = useProducts();
+  const {
+    products,
+    setProducts,
+    isLoading,
+    setIsLoading,
+    setNotification,
+    setCart,
+    cart,
+  } = useContext(StateContext);
+
+  const ref = useRef(0);
 
   useEffect(() => {
-    console.log("Products mounts");
-    return () => console.log("Products component UNMOUNTS");
+    setIsLoading(true);
+    fetch("https://fakestoreapi.com/products")
+      .then((res) => res.json())
+      .then((data) => {
+        setProducts(data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setNotification(`${(err as Error).message}`);
+        setTimeout(() => setNotification(null), 3000);
+        setIsLoading(false);
+      });
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>There was error fetching products...</div>;
-
-  const handleClick = (product: Product) => {
-    const updatedCart = [...cart, product];
-    setCart(updatedCart);
-    localStorage.setItem("shoppingCart", JSON.stringify(updatedCart));
-  };
-
   const renderProducts = () => {
-    return products.map((product, i) => {
-      return (
-        <ProductItem
-          theme="primary"
-          key={product.id}
-          product={product}
-          onClick={handleClick}
-          btnTitle="Add cart"
-          position={i}
-        />
-      );
-    });
+    return products.map((product: Product) => (
+      <Item
+        key={product.id}
+        product={product}
+        btnTitle="Add card"
+        onClick={addToShoppingCard}
+      />
+    ));
   };
+
+  const addToShoppingCard = (product: Product) => {
+    setCart([...cart, product]);
+    setNotification(`Succesfully added ${product.title} to shopping card`);
+    setTimeout(() => setNotification(null), 3000);
+  };
+
+  if (isLoading) return <Spinner />;
+
   return (
-    <>
+    <div>
       <h3 className="header">Products</h3>
+
       <ul className="list-group">{renderProducts()}</ul>
-      <p className="mb-5">{`There is ${cart.length} product${
-        cart.length < 2 ? "" : "s"
-      } in the shopping cart`}</p>
-      {cart.length > 0 ? (
-        <button
-          onClick={() => {
-            setCart([]);
-            localStorage.removeItem("shoppingCart");
-          }}
-          className="btn btn-danger"
-        >
-          Clear shoppingcart
-        </button>
-      ) : null}
-    </>
+    </div>
   );
 };
 
 export default Products;
-
-const useProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-
-  const { data, isLoading, isError, error } = useQuery("products", () =>
-    fetch("https://random-data-api.com/api/device/random_device?size=5").then(
-      (res) => res.json()
-    )
-  );
-
-  useEffect(() => {
-    if (!data) return;
-
-    setProducts(data);
-  }, [data]);
-
-  return {
-    products,
-    isLoading,
-    isError,
-    error,
-  };
-};

@@ -1,49 +1,89 @@
-import React, { createContext, useEffect, useState } from "react";
-import CoffeesList from "./CoffeesList";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
+
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-import Checkout from "./Checkout";
 import Navbar from "./Navbar";
-import Products, { Product } from "./Products";
-import Cart from "./Cart";
-import Home from "./Home";
 
-interface CartContextType {
+import Home from "./Home";
+import Cart from "./Cart";
+import Products, { Product } from "./Products";
+import AppAction from "../interfaces/actions";
+import Notification from "./Notification";
+import { reducer } from "../reducer";
+
+export interface AppState {
+  products: Product[];
   cart: Product[];
-  setCart: (value: Product[]) => void;
+  notification: string | null;
+  isLoading: boolean;
 }
 
-export const CartContext = createContext<CartContextType>({
+export const initialState = {
+  products: [],
   cart: [],
-  setCart: () => "",
+  notification: null,
+  isLoading: false,
+};
+
+interface StateContextType {
+  products: Product[];
+  setProducts: (value: Product[]) => void;
+  cart: Product[];
+  setCart: (value: Product[]) => void;
+  notification: string | null;
+  setNotification: (value: string | null) => void;
+  isLoading: boolean;
+  setIsLoading: (value: boolean) => void;
+}
+
+export const StateContext = createContext<StateContextType>({
+  products: [],
+  setProducts: () => [],
+  cart: [],
+  setCart: () => [],
+  notification: null,
+  setNotification: () => "",
+  isLoading: false,
+  setIsLoading: () => false,
 });
 
 const App = () => {
+  const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<Product[]>([]);
+  const [notification, setNotification] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const context = useContext(StateContext);
 
   useEffect(() => {
-    const thereIsShoppingCartInLocalStorage =
-      localStorage.getItem("shoppingCart");
-
-    if (thereIsShoppingCartInLocalStorage) {
-      const storage = JSON.parse(thereIsShoppingCartInLocalStorage);
-
-      setCart(storage);
-    }
-  }, []);
+    console.log("APP RENDERS");
+    console.log(context);
+  });
 
   return (
     <div className="container">
-      <BrowserRouter>
-        <Navbar />
-        <CartContext.Provider value={{ cart, setCart }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/cart" element={<Cart />} />
-          </Routes>
-        </CartContext.Provider>
-      </BrowserRouter>
+      <StateContext.Provider
+        value={{
+          products,
+          setProducts,
+          notification,
+          setNotification,
+          cart,
+          setCart,
+          isLoading,
+          setIsLoading,
+        }}
+      >
+        <Notification />
+        <Products />
+        <Cart />
+      </StateContext.Provider>
     </div>
   );
 };
