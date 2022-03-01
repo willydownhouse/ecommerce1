@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Product } from "./Products";
 
 interface ItemProps {
   product: Product;
   btnTitle: string;
-  onClick: (value: Product) => void;
+  onClick: (value: Product, index?: number) => void;
+  position: number;
 }
 
-function Item({ product, btnTitle, onClick }: ItemProps) {
+function Item({ product, btnTitle, onClick, position }: ItemProps) {
   return (
     <div className="list-group-item">
       <small>{product.category}</small>
@@ -28,7 +29,7 @@ function Item({ product, btnTitle, onClick }: ItemProps) {
         <small>{product.description}</small>
       </div>
       <button
-        onClick={() => onClick(product)}
+        onClick={() => onClick(product, position)}
         className="btn btn-outline-primary"
       >
         {btnTitle}

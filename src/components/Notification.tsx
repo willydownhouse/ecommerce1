@@ -1,13 +1,18 @@
 import React, { useContext } from "react";
 import { StateContext } from "./App";
 
-function Notification() {
-  const { notification } = useContext(StateContext);
+type NotificationProps = {
+  notification: string;
+  color: string;
+};
 
-  if (!notification) return null;
+function Notification({ notification, color }: NotificationProps) {
+  //const { notification } = useContext(StateContext);
+
+  //if (!notification) return null;
 
   return (
-    <div className="alert alert-danger fixed-top" role="alert">
+    <div className={`alert alert-${color} fixed-top`} role="alert">
       {notification}
     </div>
   );

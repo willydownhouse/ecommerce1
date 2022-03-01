@@ -1,28 +1,24 @@
-import { useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import { useQuery } from "react-query";
-import { initialState } from "../components/App";
+import { initialState, StateContext } from "../components/App";
 import { reducer } from "../reducer";
 
 const useProducts = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { setProducts } = useContext(StateContext);
 
   const { data, isLoading, isError, error } = useQuery("products", () =>
-    fetch("https://fakestoreapi.com/products").then((res) => res.json())
+    fetch("https://fakestoreapi.com/procts").then((res) => res.json())
   );
 
   useEffect(() => {
     if (!data) return;
 
-    dispatch({
-      type: "SET_PRODUCTS",
-      payload: data,
-    });
+    setProducts(data);
   }, [data]);
 
   return {
-    products: state.products,
-    isLoading,
     isError,
+    isLoading,
     error,
   };
 };

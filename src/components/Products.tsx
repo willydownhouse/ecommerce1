@@ -1,11 +1,8 @@
-import React, { useContext, useEffect, useReducer, useRef } from "react";
-import useProducts from "../hooks/useProducts";
-import ErrorNotif from "./Notification";
+import React, { useContext, useEffect } from "react";
 import Spinner from "./Spinner";
 import Item from "./Item";
-import { initialState, StateContext } from "./App";
-import { reducer } from "../reducer";
-import Home from "./Home";
+import { StateContext } from "./App";
+import useProducts from "../hooks/useProducts";
 
 export interface Product {
   id: number;
@@ -19,17 +16,16 @@ export interface Product {
 const Products = () => {
   const {
     products,
-    setProducts,
-    isLoading,
-    setIsLoading,
     setNotification,
     setCart,
     cart,
+    setIsLoading,
+    setProducts,
+    isLoading,
   } = useContext(StateContext);
 
-  const ref = useRef(0);
-
   useEffect(() => {
+    console.log("PRODUCTS RENDERS");
     setIsLoading(true);
     fetch("https://fakestoreapi.com/products")
       .then((res) => res.json())
@@ -45,8 +41,9 @@ const Products = () => {
   }, []);
 
   const renderProducts = () => {
-    return products.map((product: Product) => (
+    return products.map((product: Product, i: number) => (
       <Item
+        position={i}
         key={product.id}
         product={product}
         btnTitle="Add card"

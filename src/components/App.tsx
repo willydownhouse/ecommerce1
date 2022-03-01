@@ -59,31 +59,35 @@ const App = () => {
   const [notification, setNotification] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const context = useContext(StateContext);
-
   useEffect(() => {
     console.log("APP RENDERS");
-    console.log(context);
   });
 
   return (
     <div className="container">
-      <StateContext.Provider
-        value={{
-          products,
-          setProducts,
-          notification,
-          setNotification,
-          cart,
-          setCart,
-          isLoading,
-          setIsLoading,
-        }}
-      >
-        <Notification />
-        <Products />
-        <Cart />
-      </StateContext.Provider>
+      <BrowserRouter>
+        <StateContext.Provider
+          value={{
+            products,
+            setProducts,
+            notification,
+            setNotification,
+            cart,
+            setCart,
+            isLoading,
+            setIsLoading,
+          }}
+        >
+          {notification ? (
+            <Notification notification={notification} color="danger" />
+          ) : null}
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Products />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </StateContext.Provider>
+      </BrowserRouter>
     </div>
   );
 };
