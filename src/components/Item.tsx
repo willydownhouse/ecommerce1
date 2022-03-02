@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { Product } from "./Products";
+import { IProduct } from "./Products";
 
 interface ItemProps {
-  product: Product;
+  product: IProduct;
   btnTitle: string;
-  onClick: (value: Product, index?: number) => void;
+  onClick: (value: IProduct, index?: number) => void;
   position: number;
 }
 

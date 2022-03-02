@@ -1,11 +1,11 @@
-import { Product } from "../components/Products";
+import { IProduct } from "../components/Products";
 
 interface BaseAction {
   type: string;
 }
 
 interface ProductAction extends BaseAction {
-  payload: Product[];
+  payload: IProduct[];
 }
 interface NotificationAction extends BaseAction {
   payload?: string;

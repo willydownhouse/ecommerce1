@@ -1,39 +1,33 @@
 import React, { useContext, useEffect, useReducer, useRef } from "react";
-import { StateContext } from "./App";
+import { useStateValue } from "../state/state";
+
 import Item from "./Item";
-import { Product } from "./Products";
+import { IProduct } from "./Products";
 
 const Cart = () => {
-  const { cart, setCart } = useContext(StateContext);
+  console.log("CART RENDERS");
 
-  useEffect(() => {
-    console.log("cart:");
-    console.log(cart);
-  }, [cart]);
-
-  const removeFromShoppingCard = (product: Product, position?: number) => {
-    const updatedCart = cart.filter((item, i) =>
-      item.id === product.id && position === i ? "" : item
-    );
-
-    setCart(updatedCart);
+  const { state } = useStateValue();
+  const handleClick = () => {
+    console.log("remove");
   };
-
-  const renderCart = () => {
-    return cart.map((product: Product, i: number) => (
-      <Item
-        position={i}
-        key={product.id}
-        product={product}
-        btnTitle="Remove item"
-        onClick={removeFromShoppingCard}
-      />
-    ));
+  const renderCard = () => {
+    return state.cart.map((product, i) => {
+      return (
+        <Item
+          btnTitle="Remove"
+          onClick={handleClick}
+          position={i}
+          product={product}
+          key={i}
+        />
+      );
+    });
   };
   return (
     <div>
       <h3>Shopping cart</h3>
-      <ul className="list-group">{renderCart()}</ul>
+      <ul className="list-group">{renderCard()}</ul>
     </div>
   );
 };

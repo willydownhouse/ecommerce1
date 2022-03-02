@@ -12,81 +12,34 @@ import Navbar from "./Navbar";
 
 import Home from "./Home";
 import Cart from "./Cart";
-import Products, { Product } from "./Products";
+import Products, { IProduct } from "./Products";
 import AppAction from "../interfaces/actions";
 import Notification from "./Notification";
-import { reducer } from "../reducer";
-
-export interface AppState {
-  products: Product[];
-  cart: Product[];
-  notification: string | null;
-  isLoading: boolean;
-}
-
-export const initialState = {
-  products: [],
-  cart: [],
-  notification: null,
-  isLoading: false,
-};
-
-interface StateContextType {
-  products: Product[];
-  setProducts: (value: Product[]) => void;
-  cart: Product[];
-  setCart: (value: Product[]) => void;
-  notification: string | null;
-  setNotification: (value: string | null) => void;
-  isLoading: boolean;
-  setIsLoading: (value: boolean) => void;
-}
-
-export const StateContext = createContext<StateContextType>({
-  products: [],
-  setProducts: () => [],
-  cart: [],
-  setCart: () => [],
-  notification: null,
-  setNotification: () => "",
-  isLoading: false,
-  setIsLoading: () => false,
-});
+import { initialState, reducer, StateProvider } from "../state/state";
 
 const App = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [cart, setCart] = useState<Product[]>([]);
-  const [notification, setNotification] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  useEffect(() => {
-    console.log("APP RENDERS");
-  });
+  console.log("APP RENDERS");
+  console.log(state.notification);
 
   return (
     <div className="container">
       <BrowserRouter>
-        <StateContext.Provider
-          value={{
-            products,
-            setProducts,
-            notification,
-            setNotification,
-            cart,
-            setCart,
-            isLoading,
-            setIsLoading,
-          }}
-        >
-          {notification ? (
-            <Notification notification={notification} color="danger" />
-          ) : null}
-          <Navbar />
+        {state.notification ? (
+          <Notification
+            message={state.notification.message}
+            color={state.notification.color}
+          />
+        ) : null}
+
+        <Navbar />
+        <StateProvider value={{ state, dispatch }}>
           <Routes>
             <Route path="/" element={<Products />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
-        </StateContext.Provider>
+        </StateProvider>
       </BrowserRouter>
     </div>
   );
