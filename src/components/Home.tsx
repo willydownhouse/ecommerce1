@@ -1,10 +1,33 @@
 import React from "react";
 
-function Home() {
-  console.log("HOME RENDERS");
+type HomeProps = {
+  menu: boolean;
+  setMenu: (value: boolean) => void;
+};
+
+function Home({ menu, setMenu }: HomeProps) {
+  const handleClick = () => {
+    setMenu(!menu);
+  };
   return (
-    <div>
-      <h1 className="header">Home</h1>
+    <div
+      className="vh-100 title"
+      style={{
+        backgroundColor: "rgb(57,87,61)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <h1
+        style={{
+          cursor: "pointer",
+        }}
+        onClick={() => handleClick()}
+        className="header"
+      >
+        Home
+      </h1>
     </div>
   );
 }

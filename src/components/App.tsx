@@ -11,35 +11,27 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Navbar from "./Navbar";
 
 import Home from "./Home";
-import Cart from "./Cart";
-import Products, { IProduct } from "./Products";
-import AppAction from "../interfaces/actions";
-import Notification from "./Notification";
-import { initialState, reducer, StateProvider } from "../state/state";
+import Sidemenu from "./Sidemenu";
+
+//import Notification from "./Notification";
 
 const App = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [menu, setMenu] = useState(false);
 
-  console.log("APP RENDERS");
-  console.log(state.notification);
+  useEffect(() => {
+    console.log("menu open:");
+    console.log(menu);
+  }, [menu]);
 
   return (
-    <div className="container">
+    <div
+      style={{
+        position: "relative",
+      }}
+    >
       <BrowserRouter>
-        {state.notification ? (
-          <Notification
-            message={state.notification.message}
-            color={state.notification.color}
-          />
-        ) : null}
-
-        <Navbar />
-        <StateProvider value={{ state, dispatch }}>
-          <Routes>
-            <Route path="/" element={<Products />} />
-            <Route path="/cart" element={<Cart />} />
-          </Routes>
-        </StateProvider>
+        <Sidemenu menu={menu} setMenu={setMenu} />
+        <Home menu={menu} setMenu={setMenu} />
       </BrowserRouter>
     </div>
   );
