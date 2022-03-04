@@ -2,32 +2,33 @@ import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 type SideMenuProps = {
-  menu: boolean;
-  setMenu: (value: boolean) => void;
+  menuOpen: boolean;
+  setMenuOpen: (value: boolean) => void;
 };
 
-function Sidemenu({ menu, setMenu }: SideMenuProps) {
+function Sidemenu({ menuOpen, setMenuOpen }: SideMenuProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   const handleClick = (e: MouseEvent) => {
     if (
-      ref.current?.contains(e.target as HTMLElement) ||
-      !(e.target as HTMLElement).classList.contains("title")
-    )
-      return;
-    console.log("window clikked");
-    setMenu(false);
-    document.body.removeEventListener("click", handleClick, { capture: true });
-  };
+      !ref.current?.contains(e.target as HTMLElement) ||
+      (e.target as HTMLElement).closest(".burger")
+    ) {
+      console.log(e.target);
 
+      document.body.removeEventListener("click", handleClick, {
+        capture: true,
+      });
+      setMenuOpen(false);
+
+      e.stopPropagation();
+    }
+  };
   useEffect(() => {
-    if (!menu) return;
+    if (!menuOpen) return;
 
     document.body.addEventListener("click", handleClick, { capture: true });
-
-    //return () => window.removeEventListener("click", handleClick);
-  }, [menu]);
-
+  }, [menuOpen]);
   return (
     <div
       ref={ref}
@@ -38,16 +39,36 @@ function Sidemenu({ menu, setMenu }: SideMenuProps) {
         background: "red",
         width: "30%",
         height: "100vh",
-        transform: `${menu ? "translateX(0)" : "translateX(100%)"}`,
+        transform: `${menuOpen ? "translateX(0)" : "translateX(100%)"}`,
         transition: "all ease .5s",
       }}
     >
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link
+            onClick={() => {
+              setMenuOpen(false);
+              document.body.removeEventListener("click", handleClick, {
+                capture: true,
+              });
+            }}
+            to="/"
+          >
+            Home
+          </Link>
         </li>
         <li>
-          <Link to="/two">Two</Link>
+          <Link
+            onClick={() => {
+              setMenuOpen(false);
+              document.body.removeEventListener("click", handleClick, {
+                capture: true,
+              });
+            }}
+            to="/page"
+          >
+            Two
+          </Link>
         </li>
       </ul>
     </div>

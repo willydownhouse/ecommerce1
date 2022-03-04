@@ -1,14 +1,6 @@
 import React from "react";
 
-type HomeProps = {
-  menu: boolean;
-  setMenu: (value: boolean) => void;
-};
-
-function Home({ menu, setMenu }: HomeProps) {
-  const handleClick = () => {
-    setMenu(!menu);
-  };
+function Home() {
   return (
     <div
       className="vh-100 title"
@@ -19,15 +11,7 @@ function Home({ menu, setMenu }: HomeProps) {
         justifyContent: "center",
       }}
     >
-      <h1
-        style={{
-          cursor: "pointer",
-        }}
-        onClick={() => handleClick()}
-        className="header"
-      >
-        Home
-      </h1>
+      <h1 className="header">Home</h1>
     </div>
   );
 }

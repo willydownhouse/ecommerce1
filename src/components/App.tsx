@@ -12,16 +12,18 @@ import Navbar from "./Navbar";
 
 import Home from "./Home";
 import Sidemenu from "./Sidemenu";
+import Hamburger from "./Hamburger";
+import Spinner from "./Spinner";
 
 //import Notification from "./Notification";
 
 const App = () => {
-  const [menu, setMenu] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     console.log("menu open:");
-    console.log(menu);
-  }, [menu]);
+    console.log(menuOpen);
+  }, [menuOpen]);
 
   return (
     <div
@@ -30,8 +32,12 @@ const App = () => {
       }}
     >
       <BrowserRouter>
-        <Sidemenu menu={menu} setMenu={setMenu} />
-        <Home menu={menu} setMenu={setMenu} />
+        <Sidemenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+        <Hamburger menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/page" element={<Spinner />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );
