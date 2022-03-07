@@ -1,45 +1,32 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-
-import Navbar from "./Navbar";
-
-import Home from "./Home";
-import Sidemenu from "./Sidemenu";
-import Hamburger from "./Hamburger";
-import Spinner from "./Spinner";
+import {
+  Button,
+  Container,
+  Form,
+  Header,
+  Image,
+  Modal,
+} from "semantic-ui-react";
+import MyForm from "./Form";
+import Suggestions from "./Suggestions";
 
 //import Notification from "./Notification";
 
-const App = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+export interface IHotel {
+  name: string;
+  destinationId: string;
+}
 
-  useEffect(() => {
-    console.log("menu open:");
-    console.log(menuOpen);
-  }, [menuOpen]);
+const App = () => {
+  const [hotels, setHotels] = useState<IHotel[]>([]);
 
   return (
-    <div
-      style={{
-        position: "relative",
-      }}
-    >
-      <BrowserRouter>
-        <Sidemenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-        <Hamburger menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/page" element={<Spinner />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Container>
+      <Header as={"h2"}>Hotels</Header>
+      <MyForm setHotels={setHotels} />
+      <Suggestions hotels={hotels} />
+    </Container>
   );
 };
 
