@@ -1,0 +1,19 @@
+.shoeslist-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: repeat(8, 1fr);
+  grid-gap: 30px;
+}
+
+@media only screen and (max-width: 800px) {
+  .shoeslist-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(12, 1fr);
+  }
+}
+@media only screen and (max-width: 600px) {
+  .shoeslist-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(24, 1fr);
+  }
+}

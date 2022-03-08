@@ -1,61 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 
-import {
-  Button,
-  Container,
-  Form,
-  Header,
-  Image,
-  Modal,
-} from "semantic-ui-react";
-import MyForm from "./Form";
-import Suggestions from "./Suggestions";
+import { reducer } from "../state/reducer";
+import { initialState, StateProvider } from "../state/state";
+import { fetchShoes } from "../utils/fetchShoes";
+import Notification from "./Notification";
+import ShoesList from "./ShoesList";
+import Spinner from "./Spinner";
 
-//import Notification from "./Notification";
-
-export interface IHotel {
-  name: string;
-  destinationId: string;
-}
+import "../css/App.css";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import Navbar from "./Navbar";
+import Cart from "./Cart";
+import SortDropdown from "./SortDropdown";
 
 const App = () => {
-  const [hotels, setHotels] = useState<IHotel[]>([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const { isLoading, notification } = state;
+  console.log("STATE:");
+  console.log(state);
+
+  useEffect(() => {
+    fetchShoes(dispatch);
+  }, []);
 
   return (
-    <Container>
-      <Header as={"h2"}>Hotels</Header>
-      <MyForm setHotels={setHotels} />
-      <Suggestions hotels={hotels} />
-    </Container>
+    <div className="container">
+      <BrowserRouter>
+        <Navbar />
+        {notification ? (
+          <Notification
+            message={notification.message as string}
+            color={notification.color}
+          />
+        ) : null}
+
+        <StateProvider value={{ state, dispatch }}>
+          <SortDropdown />
+          {isLoading ? <Spinner /> : null}
+
+          <Routes>
+            <Route path="/" element={<ShoesList />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </StateProvider>
+      </BrowserRouter>
+    </div>
   );
 };
 
 export default App;
-
-//{
-/* <BrowserRouter>
-      <Navbar />
-
-      <Routes>
-        <Route path="/" element={<CoffeesList />} />
-        <Route path="/checkout" element={<Checkout />} />
-      </Routes>
-    </BrowserRouter> */
-//}
-
-//import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-//import { db } from "../firebase";
-
-// const docData = {
-//   uid: "77281193-b054-4b2f-a5a1-f8cc2b6965a5",
-//   blend_name: "Green Symphony",
-//   origin: "Bugisu, Uganda",
-//   variety: "SL34",
-//   notes: "deep, silky, mandarin, mango, cacao nibs",
-//   intensifier: "quick",
-// };
-
-// const addDocument = async () => {
-//   const res = await addDoc(collection(db, "coffees"), docData);
-//   console.log(res.converter?.fromFirestore);
-// };
