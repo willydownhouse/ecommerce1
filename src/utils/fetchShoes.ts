@@ -26,6 +26,8 @@ export const fetchShoes = (dispatch: React.Dispatch<IAppAction>) => {
           return { ...el, id: uuid() };
         });
 
+        localStorage.setItem("shoes", JSON.stringify(dataWithId));
+
         dispatch({
           type: FETCH_SHOES_SUCCESS,
           payload: dataWithId,

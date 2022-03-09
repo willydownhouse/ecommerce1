@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 
 import { reducer } from "../state/reducer";
 import { initialState, StateProvider } from "../state/state";
@@ -8,10 +8,11 @@ import ShoesList from "./ShoesList";
 import Spinner from "./Spinner";
 
 import "../css/App.css";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./Navbar";
 import Cart from "./Cart";
 import SortDropdown from "./SortDropdown";
+import Footer from "./Footer";
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -22,29 +23,36 @@ const App = () => {
 
   useEffect(() => {
     fetchShoes(dispatch);
+    // dispatch({
+    //   type: "SHOES_FROM_LOCAL",
+    //   payload: null,
+    // });
   }, []);
 
   return (
-    <div className="container">
-      <BrowserRouter>
-        <Navbar />
-        {notification ? (
-          <Notification
-            message={notification.message as string}
-            color={notification.color}
-          />
-        ) : null}
+    <div>
+      <div className="container">
+        <BrowserRouter>
+          {notification ? (
+            <Notification
+              message={notification.message as string}
+              color={notification.color}
+            />
+          ) : null}
 
-        <StateProvider value={{ state, dispatch }}>
-          <SortDropdown />
-          {isLoading ? <Spinner /> : null}
+          <StateProvider value={{ state, dispatch }}>
+            <Navbar />
+            <SortDropdown />
+            {isLoading ? <Spinner /> : null}
 
-          <Routes>
-            <Route path="/" element={<ShoesList />} />
-            <Route path="/cart" element={<Cart />} />
-          </Routes>
-        </StateProvider>
-      </BrowserRouter>
+            <Routes>
+              <Route path="/" element={<ShoesList />} />
+              <Route path="/cart" element={<Cart />} />
+            </Routes>
+          </StateProvider>
+        </BrowserRouter>
+      </div>
+      <Footer />
     </div>
   );
 };

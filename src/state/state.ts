@@ -8,7 +8,7 @@ export interface IAppState {
   shoes: IShoe[];
   notification: INotification | null;
   user: IUser | null;
-  card: IShoe[];
+  cart: IShoe[];
   isLoading: boolean;
 }
 
@@ -16,7 +16,7 @@ export const initialState: IAppState = {
   shoes: [],
   notification: null,
   user: null,
-  card: [],
+  cart: [],
   isLoading: false,
 };
 

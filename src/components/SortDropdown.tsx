@@ -1,6 +1,11 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { SORT_PRICE_ASCENDING, SORT_PRICE_DECENDING } from "../state/action";
+import {
+  IAppAction,
+  SHOES_FROM_LOCAL,
+  SORT_PRICE_ASCENDING,
+  SORT_PRICE_DECENDING,
+} from "../state/action";
 import { useStateValue } from "../state/state";
 
 function SortDropdown() {
@@ -12,22 +17,13 @@ function SortDropdown() {
     <div
       style={{
         width: "150px",
-        marginBottom: "30px",
       }}
     >
       <select
-        onChange={(e) => {
-          e.target.value === "cheapest"
-            ? dispatch({
-                type: SORT_PRICE_ASCENDING,
-              })
-            : dispatch({
-                type: SORT_PRICE_DECENDING,
-              });
-        }}
+        onChange={(e) => handleChange(e, dispatch)}
         className="form-select form-select-sm mt-2"
       >
-        <option>Sort by</option>
+        <option value="original">Sort by</option>
         <option value="cheapest">Cheapest</option>
         <option value="expensive">Most expensive</option>
       </select>
@@ -36,3 +32,25 @@ function SortDropdown() {
 }
 
 export default SortDropdown;
+
+const handleChange = (
+  e: React.ChangeEvent<HTMLSelectElement>,
+  dispatch: React.Dispatch<IAppAction>
+) => {
+  {
+    if (e.target.value === "cheapest") {
+      return dispatch({
+        type: SORT_PRICE_ASCENDING,
+      });
+    }
+    if (e.target.value === "expensive") {
+      return dispatch({
+        type: SORT_PRICE_DECENDING,
+      });
+    }
+    return dispatch({
+      type: SHOES_FROM_LOCAL,
+      payload: null,
+    });
+  }
+};

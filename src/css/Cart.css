@@ -1,0 +1,29 @@
+.cart {
+  min-height: 65vh;
+}
+
+.cart-list {
+  padding: 40px 0 40px 0;
+}
+
+.cart-item-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.cart-item.cart-item-first {
+  justify-content: flex-start;
+}
+
+@media only screen and (max-width: 600px) {
+  .cart-item-grid {
+    grid-template-columns: 3fr 1fr 1fr;
+    grid-gap: 10px;
+  }
+}
