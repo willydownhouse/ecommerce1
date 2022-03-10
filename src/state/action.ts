@@ -1,4 +1,5 @@
 import { IShoe } from "../interfaces/shoe";
+import { IUser } from "../interfaces/user";
 import { INotification } from "../interfaces/utils";
 
 interface BaseAction {
@@ -34,13 +35,18 @@ interface FilterAction extends BaseAction {
   payload: string;
 }
 
+interface AuthenticationAction extends BaseAction {
+  payload: IUser | null;
+}
+
 export type IAppAction =
   | FetchShoesAction
   | NotificationAction
   | LoadingAction
   | SortAction
   | CartAction
-  | FilterAction;
+  | FilterAction
+  | AuthenticationAction;
 
 export const START_LOADING = "START_LOADING";
 export const STOP_LOADING = "STOP_LOADING";
@@ -58,3 +64,6 @@ export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const REMOVE_ALL_FROM_CART = "REMOVE_ALL_FROM_CART";
 export const FILTER_SHOES_LIST = "FILTER_SHOES_LIST";
 export const SHOES_FROM_LOCAL = "SHOES_FROM_LOCAL";
+
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";

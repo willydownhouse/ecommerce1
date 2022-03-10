@@ -21,6 +21,12 @@
   justify-content: flex-start;
 }
 
+.cart-button-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 @media only screen and (max-width: 600px) {
   .cart-item-grid {
     grid-template-columns: 3fr 1fr 1fr;

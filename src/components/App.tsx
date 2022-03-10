@@ -13,6 +13,19 @@ import Navbar from "./Navbar";
 import Cart from "./Cart";
 import SortDropdown from "./SortDropdown";
 import Footer from "./Footer";
+import Checkout from "./Checkout";
+import NoAccess from "./NoAccess";
+
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  process.env.REACT_APP_STRIPE_API_KEY as string
+);
+
+// const options = {
+//   clientSecret: "{{CLIENT_SECRET}}",
+// };
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -22,15 +35,15 @@ const App = () => {
   console.log(state);
 
   useEffect(() => {
-    fetchShoes(dispatch);
-    // dispatch({
-    //   type: "SHOES_FROM_LOCAL",
-    //   payload: null,
-    // });
+    //fetchShoes(dispatch);
+    dispatch({
+      type: "SHOES_FROM_LOCAL",
+      payload: null,
+    });
   }, []);
 
   return (
-    <div>
+    <Elements stripe={stripePromise}>
       <div className="container">
         <BrowserRouter>
           {notification ? (
@@ -48,12 +61,16 @@ const App = () => {
             <Routes>
               <Route path="/" element={<ShoesList />} />
               <Route path="/cart" element={<Cart />} />
+              <Route
+                path="/checkout"
+                element={state.user ? <Checkout /> : <NoAccess />}
+              />
             </Routes>
           </StateProvider>
         </BrowserRouter>
       </div>
       <Footer />
-    </div>
+    </Elements>
   );
 };
 

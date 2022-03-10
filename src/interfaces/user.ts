@@ -1,9 +1,9 @@
 export interface IUser {
   id: string;
   email: string;
-  password: string;
-  full_name?: {
-    first_name: string;
-    last_name: string;
-  };
+  familyName: string;
+  givenName: string;
+  googleId: string;
+  imageUrl: string;
+  name: string;
 }

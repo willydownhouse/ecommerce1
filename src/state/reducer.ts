@@ -15,11 +15,14 @@ import {
   CartActionPayload,
   FILTER_SHOES_LIST,
   SHOES_FROM_LOCAL,
+  LOGIN,
+  LOGOUT,
 } from "./action";
 import { IAppState } from "./state";
 
 import { IShoe } from "../interfaces/shoe";
 import { INotification } from "../interfaces/utils";
+import { IUser } from "../interfaces/user";
 
 export const reducer = (state: IAppState, action: IAppAction): IAppState => {
   switch (action.type) {
@@ -106,7 +109,16 @@ export const reducer = (state: IAppState, action: IAppAction): IAppState => {
         ...state,
         shoes: JSON.parse(localStorage.getItem("shoes") as string),
       };
-
+    case LOGIN:
+      return {
+        ...state,
+        user: action.payload as IUser,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        user: null,
+      };
     default:
       return state;
   }

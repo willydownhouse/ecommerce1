@@ -1,4 +1,4 @@
 export interface INotification {
   message: string | null;
-  color: "success" | "danger";
+  color: "success" | "danger" | "dark";
 }
