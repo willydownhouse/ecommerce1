@@ -10,6 +10,11 @@ import {
 
 import { v4 as uuid } from "uuid";
 
+import { db } from "../firebase";
+import { writeBatch, doc, collection, addDoc } from "firebase/firestore";
+
+const batch = writeBatch(db);
+
 export const fetchShoes = (dispatch: React.Dispatch<IAppAction>) => {
   dispatch({ type: START_LOADING });
   fetch("https://nike-products.p.rapidapi.com/shoes/men-shoes", {
@@ -27,6 +32,18 @@ export const fetchShoes = (dispatch: React.Dispatch<IAppAction>) => {
         });
 
         localStorage.setItem("shoes", JSON.stringify(dataWithId));
+
+        // const addDocument = async () => {
+        //   const res = await addDoc(collection(db, "coffees"), docData);
+        //   console.log(res.converter?.fromFirestore);
+        // };
+
+        //firebase
+        // data.forEach(async (doc) => {
+        //   const res = await addDoc(collection(db, "shoes"), doc);
+
+        //   console.log(res.converter?.fromFirestore);
+        // });
 
         dispatch({
           type: FETCH_SHOES_SUCCESS,

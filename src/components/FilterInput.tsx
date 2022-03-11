@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import "../css/FilterInput.css";
-import { FILTER_SHOES_LIST, SHOES_FROM_LOCAL } from "../state/action";
+import { FILTER_SHOES_LIST } from "../state/action";
 import { useStateValue } from "../state/state";
+import { fetchShoesFireStore } from "../utils/fetchShoesFirestore";
 
 function FilterInput() {
   const [value, setValue] = useState<string>("");
   const { dispatch } = useStateValue();
+
   return (
     <div className="filter-input">
       <input
         onBlur={() => setValue("")}
         value={value}
-        onChange={(e) => {
+        onChange={async (e) => {
           setValue(e.target.value);
-          dispatch({
-            type: SHOES_FROM_LOCAL,
-            payload: null,
-          });
+
+          await fetchShoesFireStore(dispatch);
+
           dispatch({
             type: FILTER_SHOES_LIST,
             payload: e.target.value,

@@ -2,11 +2,11 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import {
   IAppAction,
-  SHOES_FROM_LOCAL,
   SORT_PRICE_ASCENDING,
   SORT_PRICE_DECENDING,
 } from "../state/action";
 import { useStateValue } from "../state/state";
+import { fetchShoesFireStore } from "../utils/fetchShoesFirestore";
 
 function SortDropdown() {
   const location = useLocation();
@@ -48,9 +48,6 @@ const handleChange = (
         type: SORT_PRICE_DECENDING,
       });
     }
-    return dispatch({
-      type: SHOES_FROM_LOCAL,
-      payload: null,
-    });
+    return fetchShoesFireStore(dispatch);
   }
 };

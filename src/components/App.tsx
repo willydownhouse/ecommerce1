@@ -16,16 +16,8 @@ import Footer from "./Footer";
 import Checkout from "./Checkout";
 import NoAccess from "./NoAccess";
 
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-
-const stripePromise = loadStripe(
-  process.env.REACT_APP_STRIPE_API_KEY as string
-);
-
-// const options = {
-//   clientSecret: "{{CLIENT_SECRET}}",
-// };
+import { fetchShoesFireStore } from "../utils/fetchShoesFirestore";
+import { SET_CART_FROM_LOCAL } from "../state/action";
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -35,15 +27,21 @@ const App = () => {
   console.log(state);
 
   useEffect(() => {
-    //fetchShoes(dispatch);
+    const cartFromLocal = JSON.parse(localStorage.getItem("cart") as string);
+
+    console.log(cartFromLocal);
+    fetchShoesFireStore(dispatch);
+
+    if (!cartFromLocal) return;
+
     dispatch({
-      type: "SHOES_FROM_LOCAL",
-      payload: null,
+      type: SET_CART_FROM_LOCAL,
+      payload: cartFromLocal,
     });
   }, []);
 
   return (
-    <Elements stripe={stripePromise}>
+    <>
       <div className="container">
         <BrowserRouter>
           {notification ? (
@@ -70,7 +68,7 @@ const App = () => {
         </BrowserRouter>
       </div>
       <Footer />
-    </Elements>
+    </>
   );
 };
 

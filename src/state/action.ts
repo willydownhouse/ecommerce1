@@ -63,7 +63,7 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const REMOVE_ALL_FROM_CART = "REMOVE_ALL_FROM_CART";
 export const FILTER_SHOES_LIST = "FILTER_SHOES_LIST";
-export const SHOES_FROM_LOCAL = "SHOES_FROM_LOCAL";
+export const SET_CART_FROM_LOCAL = "SHOES_FROM_LOCAL";
 
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";

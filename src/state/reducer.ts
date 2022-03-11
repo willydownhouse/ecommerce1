@@ -14,9 +14,9 @@ import {
   REMOVE_ALL_FROM_CART,
   CartActionPayload,
   FILTER_SHOES_LIST,
-  SHOES_FROM_LOCAL,
   LOGIN,
   LOGOUT,
+  SET_CART_FROM_LOCAL,
 } from "./action";
 import { IAppState } from "./state";
 
@@ -69,14 +69,19 @@ export const reducer = (state: IAppState, action: IAppAction): IAppState => {
         shoes: shoesCopy,
       };
     }
-    case ADD_TO_CART:
+    case ADD_TO_CART: {
+      const updatedCart = [
+        ...state.cart,
+        (action.payload as CartActionPayload).shoe,
+      ] as IShoe[];
+
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
       return {
         ...state,
-        cart: [
-          ...state.cart,
-          (action.payload as CartActionPayload).shoe,
-        ] as IShoe[],
+        cart: updatedCart,
       };
+    }
+
     case REMOVE_FROM_CART: {
       const updatedCart = state.cart.filter((item, i) =>
         item.id === (action.payload as CartActionPayload).shoe.id &&
@@ -84,6 +89,8 @@ export const reducer = (state: IAppState, action: IAppAction): IAppState => {
           ? ""
           : item
       );
+
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
       return {
         ...state,
         cart: updatedCart,
@@ -104,10 +111,10 @@ export const reducer = (state: IAppState, action: IAppAction): IAppState => {
       };
     }
 
-    case SHOES_FROM_LOCAL:
+    case SET_CART_FROM_LOCAL:
       return {
         ...state,
-        shoes: JSON.parse(localStorage.getItem("shoes") as string),
+        cart: action.payload as IShoe[],
       };
     case LOGIN:
       return {
