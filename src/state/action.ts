@@ -1,3 +1,4 @@
+import { ICheckout } from "../interfaces/checkout";
 import { IShoe } from "../interfaces/shoe";
 import { IUser } from "../interfaces/user";
 import { INotification } from "../interfaces/utils";
@@ -39,6 +40,10 @@ interface AuthenticationAction extends BaseAction {
   payload: IUser | null;
 }
 
+interface CheckoutAction extends BaseAction {
+  payload: ICheckout;
+}
+
 export type IAppAction =
   | FetchShoesAction
   | NotificationAction
@@ -46,7 +51,8 @@ export type IAppAction =
   | SortAction
   | CartAction
   | FilterAction
-  | AuthenticationAction;
+  | AuthenticationAction
+  | CheckoutAction;
 
 export const START_LOADING = "START_LOADING";
 export const STOP_LOADING = "STOP_LOADING";
@@ -67,3 +73,5 @@ export const SET_CART_FROM_LOCAL = "SHOES_FROM_LOCAL";
 
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
+
+export const CHECKOUT = "CHECKOUT";

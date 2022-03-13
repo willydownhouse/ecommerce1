@@ -12,10 +12,10 @@ import { refreshTokenSetup } from "../utils/refreshTokenSetup";
 function Login() {
   const { dispatch } = useStateValue();
   const onSuccess = (res: GoogleLoginResponse | GoogleLoginResponseOffline) => {
-    console.log(
-      "[Login success] currentUser:",
-      (res as GoogleLoginResponse).profileObj
-    );
+    // console.log(
+    //   "[Login success] currentUser:",
+    //   (res as GoogleLoginResponse).profileObj
+    // );
 
     refreshTokenSetup(res as GoogleLoginResponse);
 

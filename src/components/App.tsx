@@ -23,13 +23,12 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const { isLoading, notification } = state;
-  console.log("STATE:");
-  console.log(state);
+  // console.log("STATE:");
+  // console.log(state);
 
   useEffect(() => {
     const cartFromLocal = JSON.parse(localStorage.getItem("cart") as string);
 
-    console.log(cartFromLocal);
     fetchShoesFireStore(dispatch);
 
     if (!cartFromLocal) return;

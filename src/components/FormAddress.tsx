@@ -1,13 +1,14 @@
-import { Field, FormikErrors, FormikTouched, validateYupSchema } from "formik";
+import { FormikErrors, FormikTouched } from "formik";
 import React from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { IFormValues } from "../interfaces/utils";
 import MyFormField from "./MyFormField";
 
 type FormAddressProps = {
+  isBillingAddress: boolean;
   validateForm: (values: IFormValues) => Promise<FormikErrors<IFormValues>>;
-  touched: FormikTouched<IFormValues>;
-  errors: FormikErrors<IFormValues>;
+  touched?: FormikTouched<IFormValues>;
+  errors?: FormikErrors<IFormValues>;
   values: IFormValues;
   address: string;
   city: string;
@@ -16,6 +17,12 @@ type FormAddressProps = {
   region: string;
   setRegion: (val: string) => void;
   ZIP: string;
+  inputNameAddress: string;
+  inputNameCity: string;
+  inputNameZIP: string;
+  inputLabelAddress: string;
+  inputLabelCity: string;
+  inputLabelZIP: string;
 };
 
 function FormAddress({
@@ -30,17 +37,26 @@ function FormAddress({
   setRegion,
   ZIP,
   values,
+  inputNameAddress,
+  inputNameCity,
+  inputNameZIP,
+  inputLabelAddress,
+  inputLabelCity,
+  inputLabelZIP,
+  isBillingAddress,
 }: FormAddressProps) {
   return (
     <>
       <div className="row mb-3">
         <div className="col-8">
           <MyFormField
-            name="address"
-            label="Address"
-            error={errors.address}
-            touched={touched.address}
+            name={inputNameAddress}
             value={address}
+            label={inputLabelAddress}
+            error={isBillingAddress ? errors?.address : errors?.shippingAddress}
+            touched={
+              isBillingAddress ? touched?.address : touched?.shippingAddress
+            }
           />
         </div>
         <div className="col-4">
@@ -49,16 +65,30 @@ function FormAddress({
           <CountryDropdown
             value={country}
             onChange={(val) => {
-              values.country = val;
-              values.region = "";
+              if (isBillingAddress) {
+                values.country = val;
+                values.region = "";
+              } else {
+                values.shippingCountry = val;
+                values.shippingRegion = "";
+              }
+
               setCountry(val);
               setRegion("");
               validateForm(values).then((res) => console.log(res));
             }}
-            classes={`form-select ${errors.country ? "is-invalid" : ""}`}
+            classes={`form-select ${
+              (errors as FormikErrors<IFormValues>).country && isBillingAddress
+                ? "is-invalid"
+                : ""
+            }`}
           />
-          {errors.country && touched.country ? (
-            <div className="text-danger">{errors.country}</div>
+          {(errors as FormikErrors<IFormValues>).country &&
+          (touched as FormikTouched<IFormValues>).country &&
+          isBillingAddress ? (
+            <div className="text-danger">
+              {(errors as FormikErrors<IFormValues>).country}
+            </div>
           ) : null}
         </div>
       </div>
@@ -66,10 +96,10 @@ function FormAddress({
       <div className="row mb-3">
         <div className="col-4">
           <MyFormField
-            name="city"
-            label="City"
-            error={errors.city}
-            touched={touched.city}
+            name={inputNameCity}
+            label={inputLabelCity}
+            error={isBillingAddress ? errors?.city : errors?.shippingCity}
+            touched={isBillingAddress ? touched?.city : touched?.shippingCity}
             value={city}
           />
         </div>
@@ -79,22 +109,33 @@ function FormAddress({
             country={country}
             value={region}
             onChange={(val) => {
-              values.region = val;
+              isBillingAddress
+                ? (values.region = val)
+                : (values.shippingRegion = val);
+
               setRegion(val);
               validateForm(values).then((res) => console.log(res));
             }}
-            classes={`form-select ${errors.region ? "is-invalid" : ""}`}
+            classes={`form-select ${
+              (errors as FormikErrors<IFormValues>).region && isBillingAddress
+                ? "is-invalid"
+                : ""
+            }`}
           />
-          {errors.region && touched.region ? (
-            <div className="text-danger">{errors.region}</div>
+          {(errors as FormikErrors<IFormValues>).region &&
+          (touched as FormikTouched<IFormValues>).region &&
+          isBillingAddress ? (
+            <div className="text-danger">
+              {(errors as FormikErrors<IFormValues>).region}
+            </div>
           ) : null}
         </div>
         <div className="col-4">
           <MyFormField
-            name="ZIP"
-            label="ZIP"
-            error={errors.ZIP}
-            touched={touched.ZIP}
+            name={inputNameZIP}
+            label={inputLabelZIP}
+            error={isBillingAddress ? errors?.ZIP : errors?.shippingZIP}
+            touched={isBillingAddress ? touched?.ZIP : touched?.shippingZIP}
             value={ZIP}
           />
         </div>

@@ -7,9 +7,17 @@ type MyFormFieldProps = {
   error: string | undefined;
   touched: boolean | undefined;
   name: string;
+  placeholder?: string;
 };
 
-function MyFormField({ label, value, error, touched, name }: MyFormFieldProps) {
+function MyFormField({
+  label,
+  value,
+  error,
+  touched,
+  name,
+  placeholder,
+}: MyFormFieldProps) {
   return (
     <>
       <label>{label}</label>
@@ -17,6 +25,7 @@ function MyFormField({ label, value, error, touched, name }: MyFormFieldProps) {
         name={name}
         value={value}
         className={`form-control ${error ? "is-invalid" : ""}`}
+        placeholder={placeholder}
       />
       {error && touched ? <div className="text-danger">{error}</div> : null}
     </>

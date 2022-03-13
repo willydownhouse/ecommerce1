@@ -17,12 +17,15 @@ import {
   LOGIN,
   LOGOUT,
   SET_CART_FROM_LOCAL,
+  CHECKOUT,
 } from "./action";
 import { IAppState } from "./state";
 
 import { IShoe } from "../interfaces/shoe";
 import { INotification } from "../interfaces/utils";
 import { IUser } from "../interfaces/user";
+import { addCheckoutToFireStore } from "../utils/addCheckoutToFirestore";
+import { ICheckout } from "../interfaces/checkout";
 
 export const reducer = (state: IAppState, action: IAppAction): IAppState => {
   switch (action.type) {
@@ -126,6 +129,13 @@ export const reducer = (state: IAppState, action: IAppAction): IAppState => {
         ...state,
         user: null,
       };
+
+    case CHECKOUT: {
+      addCheckoutToFireStore(action.payload as ICheckout);
+
+      localStorage.removeItem("cart");
+      return { ...state };
+    }
     default:
       return state;
   }

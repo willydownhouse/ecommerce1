@@ -11,5 +11,13 @@ export interface IFormValues {
   region: string;
   ZIP: string;
   city: string;
+  shippingAddress: string;
+  shippingCountry: string;
+  shippingRegion: string;
+  shippingZIP: string;
+  shippingCity: string;
   amount: number;
+  credit_card: string;
+  expiration: string;
+  CVC: string;
 }
