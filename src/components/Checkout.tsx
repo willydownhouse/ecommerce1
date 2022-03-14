@@ -95,7 +95,7 @@ function Checkout() {
           <Form>
             <h5 className="mb-3">Customer Info</h5>
             <div className="row mb-5">
-              <div className="col-6">
+              <div className="">
                 <MyFormField
                   name="name"
                   error={errors.name}
@@ -104,7 +104,7 @@ function Checkout() {
                   value={values.name}
                 />
               </div>
-              <div className="col-6">
+              <div className="">
                 <MyFormField
                   name="email"
                   error={errors.email}
@@ -173,9 +173,7 @@ function Checkout() {
 
             <h5 className="mb-3 mt-5">Payment Details</h5>
 
-            <div className="row mb-5">
-              <CreditCard values={values} errors={errors} touched={touched} />
-            </div>
+            <CreditCard values={values} errors={errors} touched={touched} />
 
             <div className="mb-5">
               <button type="submit" className="btn btn-outline-dark btn-sm">

@@ -9,8 +9,10 @@ import { Link } from "react-router-dom";
 function Cart() {
   const { state, dispatch } = useStateValue();
 
-  const handleClearCart = () =>
+  const handleClearCart = () => {
+    localStorage.removeItem("cart");
     dispatch({ type: REMOVE_ALL_FROM_CART, payload: null });
+  };
   return (
     <div className="cart">
       <CartList />

@@ -16,12 +16,6 @@ function Navbar() {
       {location.pathname === "/" ? <FilterInput /> : null}
 
       <ul className="navbar-links">
-        {/* <li>
-          <Link className="navbar-link" to={"/"}>
-            Shoes
-          </Link>
-        </li> */}
-
         <li>
           <Link className="navbar-link" to={"/cart"}>
             <CartIcon />

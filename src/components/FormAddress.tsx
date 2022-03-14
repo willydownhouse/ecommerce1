@@ -48,7 +48,7 @@ function FormAddress({
   return (
     <>
       <div className="row mb-3">
-        <div className="col-8">
+        <div className="col-12">
           <MyFormField
             name={inputNameAddress}
             value={address}
@@ -59,7 +59,10 @@ function FormAddress({
             }
           />
         </div>
-        <div className="col-4">
+      </div>
+
+      <div className="row">
+        <div className="col-6">
           <label>Country</label>
 
           <CountryDropdown
@@ -91,10 +94,7 @@ function FormAddress({
             </div>
           ) : null}
         </div>
-      </div>
-
-      <div className="row mb-3">
-        <div className="col-4">
+        <div className="col-6">
           <MyFormField
             name={inputNameCity}
             label={inputLabelCity}
@@ -103,7 +103,10 @@ function FormAddress({
             value={city}
           />
         </div>
-        <div className="col-4">
+      </div>
+
+      <div className="row mb-3">
+        <div className="col-6">
           <label>Region</label>
           <RegionDropdown
             country={country}
@@ -130,7 +133,8 @@ function FormAddress({
             </div>
           ) : null}
         </div>
-        <div className="col-4">
+
+        <div className="col-6">
           <MyFormField
             name={inputNameZIP}
             label={inputLabelZIP}
