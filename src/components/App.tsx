@@ -18,6 +18,7 @@ import NoAccess from "./NoAccess";
 
 import { fetchShoesFireStore } from "../utils/fetchShoesFirestore";
 import { SET_CART_FROM_LOCAL } from "../state/action";
+import FilterInput from "./FilterInput";
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -52,6 +53,7 @@ const App = () => {
 
           <StateProvider value={{ state, dispatch }}>
             <Navbar />
+            <FilterInput />
             <SortDropdown />
             {isLoading ? <Spinner /> : null}
 

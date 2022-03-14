@@ -13,7 +13,7 @@ function Navbar() {
   return (
     <nav className="navbar">
       <Link to={"/"} className="navbar-logo"></Link>
-      {location.pathname === "/" ? <FilterInput /> : null}
+      {/* {location.pathname === "/" ? <FilterInput /> : null} */}
 
       <ul className="navbar-links">
         <li>

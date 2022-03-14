@@ -1,5 +1,13 @@
+.filter-input {
+  margin-bottom: 10px;
+}
+
+.filter-input-wrap {
+  width: 33%;
+}
+
 @media only screen and (max-width: 780px) {
-  .filter-input {
-    display: none;
+  .filter-input-wrap {
+    width: 100%;
   }
 }
