@@ -109,7 +109,9 @@ export const reducer = (state: IAppState, action: IAppAction): IAppState => {
       return {
         ...state,
         shoes: state.shoes.filter((item) =>
-          item.title.toLowerCase().includes(action.payload as string)
+          item.title
+            .toLowerCase()
+            .includes((action.payload as string).toLowerCase())
         ),
       };
     }
