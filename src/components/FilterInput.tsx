@@ -16,7 +16,7 @@ function FilterInput() {
     <div className="filter-input">
       <div className="filter-input-wrap">
         <input
-          onBlur={() => setValue("")}
+          //onBlur={() => setValue("")}
           value={value}
           onChange={async (e) => {
             setValue(e.target.value);
