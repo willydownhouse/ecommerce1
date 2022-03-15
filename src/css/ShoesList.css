@@ -4,7 +4,13 @@
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: repeat(8, 1fr);
   grid-gap: 30px;
-  padding: 40px 0 150px 0;
+  padding: 0 0 150px 0;
+}
+
+.shoeslist-product-amount {
+  margin: 0;
+  font-size: 12px;
+  margin-top: 40px;
 }
 
 @media only screen and (max-width: 800px) {

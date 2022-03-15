@@ -1,3 +1,5 @@
+Sneaky is e-commerce application which sells Nike sneakers. On main page you can filter and sort sneakers and you can add sneakers to the shopping cart. Before checkout you have to log in with Google.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -9,7 +9,12 @@ function ShoesList() {
   const renderShoes = () => {
     return state.shoes.map((shoe) => <ShoeItem key={shoe.id} shoe={shoe} />);
   };
-  return <div className="shoeslist-grid">{renderShoes()}</div>;
+  return (
+    <>
+      <p className="shoeslist-product-amount">{`Products found ${state.shoes.length}`}</p>
+      <div className="shoeslist-grid">{renderShoes()}</div>
+    </>
+  );
 }
 
 export default ShoesList;
